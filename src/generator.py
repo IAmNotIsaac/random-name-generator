@@ -40,8 +40,8 @@ VOWELS_DIGRAPHS = [
 ]
 
 SYLLABLE_RANGE = {
-	"min": 2,
-	"max": 5,
+	"min": 1,
+	"max": 4,
 }
 
 
