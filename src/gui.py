@@ -30,9 +30,9 @@ class App(tk.Frame):
 	def generate_name(self):
 		names = []
 		
-		for i in range(5):
+		for i in range(10):
 			name = gen.generate_name()
-			name = name.capitalize() + name[1:]
+			name = name.capitalize()[0] + name[1:]
 			names.append(name)
 		
 		self.name_list.delete(0, "end")
