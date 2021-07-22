@@ -19,7 +19,7 @@ CONSONANTS = [
 
 CONSONANTS_DIGRAPHS_INITIAL = [
 	"ch", "kn", "ph", "sh",
-	"th", "wh", "wr",
+	"th", "wh", "wr", "sc",
 ]
 
 CONSONANTS_DIGRAPHS_FINAL = [
