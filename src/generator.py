@@ -25,19 +25,28 @@ CONSONANTS = [
 CONSONANTS_DIGRAPHS_INITIAL = [
 	"ch", "kn", "ph", "sh",
 	"th", "wh", "wr", "sc",
-	"fr", "y"
+	"fr", "y", "bl", "br", "cl",
+	"cr", "dr", "fl", "fr", "gl", "gr",
+	"pl", "pr", "sc", "sl", "sm", "sp", "st", "tr",
+	"spl", "spr", "str"
 ]
 
 CONSONANTS_DIGRAPHS_FINAL = [
 	"ch", "ck", "sh",
-	"ss", "tch"
+	"ss", "tch", "bl", "br", "cl",
+	"cr", "dr", "fl", "fr", "gl", "gr",
+	"pl", "pr", "sc", "sl", "sm", "sp", "st", "tr",
+	"spl", "spr", "str"
 ]
 
 VOWELS = [
 	"a", "e", "i", "o", "u", "y",
 ]
+VOWEL_TRIPH = [
+	"eau", "eou", "iou"
+]
 
-VOWELS_DIGRAPHS = [
+VOWEL_DIGRAPHS = [
 	"aa", "ai", "ay", "ae",
 	"ee", "ea", "ei",
 	"ia", "ie",
@@ -55,17 +64,13 @@ SYLLABLE_RANGE = {
 #	boolean inc_y: include y or not
 def get_vowels(num, inc_y):
 	vowel = ""
-	for i in range(0, num):
+	if num == 3:
+		new_vowel = VOWEL_TRIPH[rand.randint(0, len(VOWEL_TRIPH)-1)]
+	elif num == 2:
+		new_vowel = VOWEL_DIGRAPHS[rand.randint(0, len(VOWEL_DIGRAPHS)-1)]
+	else:
 		new_vowel = VOWELS[rand.randint(0, len(VOWELS) - 2 + inc_y)]
-			
-		if i: # More than one vowel
-			# Y doesn't play nice with some other vowels
-			while new_vowel == "y" and (vowel[-1] == "y" or vowel[-1] == "i"):
-				new_vowel = VOWELS[rand.randint(0, len(VOWELS) - 1)]
-				print("Replacing: ", vowel, " - ", new_vowel)
-		vowel += new_vowel
-		i += 1
-	return vowel
+	return new_vowel
 
 # Inputs:	
 #	boolean pos: Whether the consonant is in initial or final position
@@ -130,10 +135,14 @@ def vowel_team(pos, word):
 	return syl
 
 # A vowel, diphthong, or triphthong that has an "r" or a "re" ("r" with a silent "e") after it.
-# V, r
+# CVr or Vr
 def r_controlled(pos, word):
 	syl = ""
-	syl += get_vowels(rand.randint(1, 3), 1)
+	if rand.randint(0, 1):
+		syl += get_cons(False)
+		syl += get_vowels(rand.randint(1, 3), 1)
+	else:
+		syl += get_vowels(rand.randint(1, 3), 0)
 	syl += "r"
 	if rand.randint(0, 1):
 		syl += "e"
@@ -172,7 +181,6 @@ syl_types = {	0 : gen_open,
            		5 : c_le,
 }
 
-
 # Should capitalise if it's the first syllable
 # First syllable if n = 0
 def generate_name():
@@ -210,8 +218,9 @@ def generate_name():
 
 	for n, s in enumerate(syl_numerate):
 		syl = syl_types[s](s, syl_numerate)
+		print("213 syl:", syl)
 		if n == 0:
-			syl = syl.capitalize()[0] + syl[1:]
+			syl = syl.capitalize()
 		name_new += syl
 		name_spaced += syl
 	# Need something to divide off le properly
@@ -265,15 +274,12 @@ def generate_name():
 			
 			# determine which vowel to use
 			if char_type == "V":
-				vowel_select = VOWELS[rand.randint(0, len(VOWELS) - 1)]
-				#table = [VOWELS, VOWELS_DIGRAPHS][rand.randint(0, 1)]
-				#vowel_select = table[rand.randint(0, len(table) - 1)]
+				vowel_select = get_vowel(1, 1)
 				name += vowel_select
-				name_spaced += vowel_select
 		
 			if char_type == "E":
 				name += "e"
-				name_spaced += "e"
+
 			i += 1
 		print("N and R:\t", n, "\t", r)
 
