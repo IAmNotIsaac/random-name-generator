@@ -11,7 +11,6 @@ SYLLABLE_TYPES = [
 	"CL",	# consonant plus le (end of word only)
 ]
 
-# 'q' has 'u' attached because like theres 2 words in english where it doesnt
 CONSONANTS = [
 	"b", "c", "d",
 	"f", "g", "h",
